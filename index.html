@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Excel Formula Challenge – Otomotif Edition</title>
+  <link rel="stylesheet" href="styles1.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Exo+2:ital,wght@0,300;0,400;0,600;0,800;1,400&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- PARTICLES BACKGROUND -->
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- SCREENS -->
+  <div id="app">
+
+    <!-- LOGIN SCREEN -->
+    <div class="screen active" id="screen-login">
+      <div class="login-container">
+        <div class="login-logo">
+          <div class="logo-icon">⚙</div>
+          <div class="logo-text">
+            <span class="logo-main">Excel Formula</span>
+            <span class="logo-sub">Challenge — Otomotif Edition</span>
+          </div>
+        </div>
+        <div class="login-card">
+          <h2>Masuk ke Bengkel Data</h2>
+          <p class="login-desc">Daftarkan diri sebagai staf administrasi bengkel digital</p>
+          <div class="form-group">
+            <label>Nama Pemain</label>
+            <input type="text" id="login-name" placeholder="Masukkan nama Anda..." maxlength="20">
+          </div>
+          <div class="form-group">
+            <label>NIM / ID Mahasiswa</label>
+            <input type="text" id="login-nim" placeholder="Contoh: 2024001234" maxlength="15">
+          </div>
+          <div class="form-group">
+            <label>Program Studi</label>
+            <select id="login-prodi">
+              <option value="Pendidikan Otomotif">S1 Pendidikan Otomotif</option>
+              <option value="Teknik Otomotif">D4 Teknik Otomotif</option>
+              <option value="Pendidikan Vokasional">Pendidikan Vokasional</option>
+            </select>
+          </div>
+          <button class="btn-primary btn-login" onclick="doLogin()">
+            <span>🔑</span> Mulai Petualangan
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN MENU SCREEN -->
+    <div class="screen" id="screen-menu">
+      <div class="menu-header">
+        <div class="menu-logo">
+          <span class="logo-icon-sm">⚙</span>
+          <span>Excel Formula Challenge</span>
+        </div>
+        <div class="menu-player">
+          <div class="player-avatar" id="menu-avatar">A</div>
+          <div class="player-info">
+            <span id="menu-player-name">Player</span>
+            <span class="player-score">🏆 <span id="menu-total-score">0</span> pts</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-hero">
+        <div class="hero-text">
+          <h1>Bengkel<br><span class="accent">Data</span> Digital</h1>
+          <p>Kuasai formula Excel melalui simulasi data otomotif dan administrasi bengkel nyata</p>
+        </div>
+        <div class="hero-visual">
+          <div class="excel-preview">
+            <div class="excel-header">
+              <span class="excel-tab active">Sheet1</span>
+              <span class="excel-tab">Data</span>
+            </div>
+            <div class="excel-formula-bar">
+              <span class="fx">fx</span>
+              <span class="formula-text">=VLOOKUP(A2,SparePartDB,3,0)</span>
+            </div>
+            <div class="excel-grid-mini">
+              <div class="mini-row header">
+                <span>No</span><span>Kendaraan</span><span>Biaya</span><span>Status</span>
+              </div>
+              <div class="mini-row"><span>1</span><span>Toyota Avanza</span><span>850rb</span><span
+                  class="status-ok">✓</span></div>
+              <div class="mini-row"><span>2</span><span>Honda Vario</span><span>320rb</span><span
+                  class="status-ok">✓</span></div>
+              <div class="mini-row"><span>3</span><span>Mitsubishi</span><span>1.2jt</span><span
+                  class="status-warn">!</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-grid">
+        <button class="menu-card primary" onclick="showScreen('screen-level')">
+          <div class="card-icon">🎮</div>
+          <div class="card-text">
+            <span class="card-title">Mulai Game</span>
+            <span class="card-desc">Pilih level & bermain</span>
+          </div>
+          <span class="card-arrow">→</span>
+        </button>
+        <button class="menu-card" onclick="showScreen('screen-leaderboard')">
+          <div class="card-icon">🏆</div>
+          <div class="card-text">
+            <span class="card-title">Leaderboard</span>
+            <span class="card-desc">Papan peringkat</span>
+          </div>
+          <span class="card-arrow">→</span>
+        </button>
+        <button class="menu-card" onclick="showScreen('screen-guide')">
+          <div class="card-icon">📖</div>
+          <div class="card-text">
+            <span class="card-title">Petunjuk</span>
+            <span class="card-desc">Cara bermain</span>
+          </div>
+          <span class="card-arrow">→</span>
+        </button>
+        <button class="menu-card" onclick="showScreen('screen-profile')">
+          <div class="card-icon">👤</div>
+          <div class="card-text">
+            <span class="card-title">Profil</span>
+            <span class="card-desc">Statistik & badge</span>
+          </div>
+          <span class="card-arrow">→</span>
+        </button>
+      </div>
+
+      <div class="menu-stats-bar">
+        <div class="stat-item"><span class="stat-icon">🎯</span><span id="stat-games">0</span><span>Game</span></div>
+        <div class="stat-item"><span class="stat-icon">✅</span><span id="stat-correct">0</span><span>Benar</span></div>
+        <div class="stat-item"><span class="stat-icon">⭐</span><span id="stat-best">0</span><span>Best Score</span>
+        </div>
+        <div class="stat-item"><span class="stat-icon">🏅</span><span id="stat-badges">0</span><span>Badge</span></div>
+      </div>
+    </div>
+
+    <!-- LEVEL SELECT SCREEN -->
+    <div class="screen" id="screen-level">
+      <div class="screen-header">
+        <button class="btn-back" onclick="showScreen('screen-menu')">← Kembali</button>
+        <h2>Pilih Level</h2>
+        <span></span>
+      </div>
+      <div class="level-grid">
+        <div class="level-card l1" onclick="startLevel(1)">
+          <div class="level-badge">LEVEL 1</div>
+          <div class="level-name">DASAR</div>
+          <div class="level-icon">📊</div>
+          <div class="level-formulas">
+            <span class="formula-tag">SUM</span>
+            <span class="formula-tag">AVERAGE</span>
+          </div>
+          <div class="level-desc">Hitung total biaya servis dan rata-rata nilai mahasiswa</div>
+          <div class="level-meta">
+            <span>⏱ 60 detik/soal</span>
+            <span>⭐ 100 pts/soal</span>
+          </div>
+          <div class="level-difficulty">
+            <div class="diff-bar">
+              <div class="diff-fill" style="width:25%"></div>
+            </div>
+            <span>Mudah</span>
+          </div>
+        </div>
+        <div class="level-card l2" onclick="startLevel(2)">
+          <div class="level-badge">LEVEL 2</div>
+          <div class="level-name">MENENGAH</div>
+          <div class="level-icon">🔧</div>
+          <div class="level-formulas">
+            <span class="formula-tag">IF</span>
+            <span class="formula-tag">COUNTIF</span>
+          </div>
+          <div class="level-desc">Tentukan status lulus dan hitung frekuensi servis kendaraan</div>
+          <div class="level-meta">
+            <span>⏱ 45 detik/soal</span>
+            <span>⭐ 200 pts/soal</span>
+          </div>
+          <div class="level-difficulty">
+            <div class="diff-bar">
+              <div class="diff-fill" style="width:50%"></div>
+            </div>
+            <span>Menengah</span>
+          </div>
+        </div>
+        <div class="level-card l3" onclick="startLevel(3)">
+          <div class="level-badge">LEVEL 3</div>
+          <div class="level-name">LANJUTAN</div>
+          <div class="level-icon">🚗</div>
+          <div class="level-formulas">
+            <span class="formula-tag">VLOOKUP</span>
+            <span class="formula-tag">XLOOKUP</span>
+          </div>
+          <div class="level-desc">Cari harga sparepart dan data pelanggan otomatis</div>
+          <div class="level-meta">
+            <span>⏱ 30 detik/soal</span>
+            <span>⭐ 350 pts/soal</span>
+          </div>
+          <div class="level-difficulty">
+            <div class="diff-bar">
+              <div class="diff-fill" style="width:75%"></div>
+            </div>
+            <span>Sulit</span>
+          </div>
+        </div>
+        <div class="level-card l4" onclick="startLevel(4)">
+          <div class="level-badge">LEVEL 4</div>
+          <div class="level-name">EXPERT</div>
+          <div class="level-icon">🏆</div>
+          <div class="level-formulas">
+            <span class="formula-tag">ALL</span>
+            <span class="formula-tag">COMBO</span>
+          </div>
+          <div class="level-desc">Laporan servis lengkap, analisis bengkel, database pelanggan</div>
+          <div class="level-meta">
+            <span>⏱ 20 detik/soal</span>
+            <span>⭐ 500 pts/soal</span>
+          </div>
+          <div class="level-difficulty">
+            <div class="diff-bar">
+              <div class="diff-fill" style="width:100%"></div>
+            </div>
+            <span>Expert</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GAME SCREEN -->
+    <div class="screen" id="screen-game">
+      <div class="game-topbar">
+        <div class="game-info-left">
+          <button class="btn-quit" onclick="quitGame()">✕ Keluar</button>
+          <div class="level-indicator" id="game-level-badge">LEVEL 1 – DASAR</div>
+        </div>
+        <div class="game-info-center">
+          <div class="timer-wrap">
+            <svg class="timer-ring" viewBox="0 0 60 60">
+              <circle class="ring-bg" cx="30" cy="30" r="26" />
+              <circle class="ring-progress" id="timer-ring" cx="30" cy="30" r="26" />
+            </svg>
+            <span class="timer-number" id="timer-display">60</span>
+          </div>
+        </div>
+        <div class="game-info-right">
+          <div class="score-display">
+            <span class="score-label">SKOR</span>
+            <span class="score-value" id="game-score">0</span>
+          </div>
+          <div class="combo-display" id="combo-display">
+            <span>🔥 Combo x<span id="combo-count">0</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="game-progress-bar">
+        <div class="progress-fill" id="game-progress"></div>
+        <span class="progress-label" id="progress-label">Soal 1 / 5</span>
+      </div>
+
+      <div class="game-content">
+        <div class="question-panel">
+          <div class="question-number" id="q-number">Soal 1</div>
+          <div class="question-text" id="q-text">Loading...</div>
+          <div class="question-context" id="q-context"></div>
+        </div>
+
+        <div class="excel-simulator">
+          <div class="excel-toolbar">
+            <span class="toolbar-btn">📁</span>
+            <span class="toolbar-btn">💾</span>
+            <span class="toolbar-btn">✂</span>
+            <span class="toolbar-divider">|</span>
+            <span class="toolbar-item">Calibri</span>
+            <span class="toolbar-item">11</span>
+          </div>
+          <div class="excel-name-box">
+            <input class="name-box-input" value="B10" readonly>
+          </div>
+          <div class="formula-bar">
+            <span class="fx-label">fx</span>
+            <div class="formula-input-wrap">
+              <input type="text" id="formula-input" class="formula-input"
+                placeholder="Ketik formula Excel di sini... contoh: =SUM(B2:B8)">
+            </div>
+          </div>
+          <div class="excel-table-wrap">
+            <div class="excel-table" id="excel-table">
+              <!-- Generated by JS -->
+            </div>
+          </div>
+        </div>
+
+        <div class="answer-section">
+          <div class="answer-choices" id="answer-choices">
+            <!-- Generated by JS -->
+          </div>
+          <div class="answer-actions">
+            <button class="btn-submit" id="btn-submit" onclick="submitAnswer()">
+              ✓ Cek Jawaban
+            </button>
+            <button class="btn-hint" onclick="showHint()">💡 Petunjuk</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- FEEDBACK OVERLAY -->
+      <div class="feedback-overlay" id="feedback-overlay">
+        <div class="feedback-card" id="feedback-card">
+          <div class="feedback-icon" id="feedback-icon">✓</div>
+          <div class="feedback-title" id="feedback-title">Benar!</div>
+          <div class="feedback-pts" id="feedback-pts">+150 pts</div>
+          <div class="feedback-explanation" id="feedback-explanation"></div>
+          <button class="btn-next" onclick="nextQuestion()">Soal Berikutnya →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULT SCREEN -->
+    <div class="screen" id="screen-result">
+      <div class="result-container">
+        <div class="result-header">
+          <div class="result-trophy" id="result-trophy">🏆</div>
+          <h1 id="result-title">Game Selesai!</h1>
+          <p id="result-subtitle">Kamu telah menyelesaikan tantangan</p>
+        </div>
+        <div class="result-score-card">
+          <div class="result-big-score" id="result-score">0</div>
+          <div class="result-score-label">Total Poin</div>
+        </div>
+        <div class="result-stats">
+          <div class="result-stat">
+            <span class="rs-icon">✅</span>
+            <span class="rs-val" id="result-correct">0</span>
+            <span class="rs-label">Benar</span>
+          </div>
+          <div class="result-stat">
+            <span class="rs-icon">❌</span>
+            <span class="rs-val" id="result-wrong">0</span>
+            <span class="rs-label">Salah</span>
+          </div>
+          <div class="result-stat">
+            <span class="rs-icon">⚡</span>
+            <span class="rs-val" id="result-combo">0</span>
+            <span class="rs-label">Max Combo</span>
+          </div>
+          <div class="result-stat">
+            <span class="rs-icon">⏱</span>
+            <span class="rs-val" id="result-time">0s</span>
+            <span class="rs-label">Avg Waktu</span>
+          </div>
+        </div>
+        <div class="result-badge-earned" id="result-badge-earned"></div>
+        <div class="result-actions">
+          <button class="btn-primary" onclick="playAgain()">🔄 Main Lagi</button>
+          <button class="btn-secondary" onclick="showScreen('screen-menu')">🏠 Menu Utama</button>
+          <button class="btn-secondary" onclick="showCertificate()">🎓 Sertifikat</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEADERBOARD SCREEN -->
+    <div class="screen" id="screen-leaderboard">
+      <div class="screen-header">
+        <button class="btn-back" onclick="showScreen('screen-menu')">← Kembali</button>
+        <h2>🏆 Leaderboard</h2>
+        <span></span>
+      </div>
+      <div class="leaderboard-tabs">
+        <button class="lb-tab active" onclick="switchLbTab('all', this)">Semua Level</button>
+        <button class="lb-tab" onclick="switchLbTab('1', this)">Level 1</button>
+        <button class="lb-tab" onclick="switchLbTab('2', this)">Level 2</button>
+        <button class="lb-tab" onclick="switchLbTab('3', this)">Level 3</button>
+        <button class="lb-tab" onclick="switchLbTab('4', this)">Level 4</button>
+      </div>
+      <div class="leaderboard-list" id="leaderboard-list">
+        <!-- Generated by JS -->
+      </div>
+    </div>
+
+    <!-- GUIDE SCREEN -->
+    <div class="screen" id="screen-guide">
+      <div class="screen-header">
+        <button class="btn-back" onclick="showScreen('screen-menu')">← Kembali</button>
+        <h2>📖 Petunjuk Bermain</h2>
+        <span></span>
+      </div>
+      <div class="guide-content">
+        <div class="guide-section">
+          <h3>🎯 Tujuan Game</h3>
+          <p>Kamu berperan sebagai staf administrasi bengkel yang harus menyelesaikan tantangan pengolahan data
+            menggunakan rumus Microsoft Excel dalam konteks data otomotif.</p>
+        </div>
+        <div class="guide-section">
+          <h3>🎮 Cara Bermain</h3>
+          <ol>
+            <li>Pilih level kesulitan sesuai kemampuanmu</li>
+            <li>Baca soal dan amati tabel data Excel yang diberikan</li>
+            <li>Pilih jawaban dari pilihan yang tersedia ATAU ketik langsung di formula bar</li>
+            <li>Tekan "Cek Jawaban" sebelum waktu habis</li>
+            <li>Kumpulkan poin sebanyak-banyaknya!</li>
+          </ol>
+        </div>
+        <div class="guide-section">
+          <h3>⭐ Sistem Skor</h3>
+          <div class="score-rules">
+            <div class="score-rule">✅ Jawaban Benar → +100 hingga +500 poin (tergantung level)</div>
+            <div class="score-rule">⚡ Bonus Kecepatan → +50 poin (jika sisa waktu > 50%)</div>
+            <div class="score-rule">🔥 Combo x2 → 2 jawaban benar berturut-turut</div>
+            <div class="score-rule">🔥 Combo x3 → 3 atau lebih jawaban benar berturut-turut</div>
+            <div class="score-rule">❌ Jawaban Salah → -50 poin & combo reset</div>
+          </div>
+        </div>
+        <div class="guide-section">
+          <h3>📋 Formula Excel yang Dipelajari</h3>
+          <div class="formula-guide-grid">
+            <div class="fg-card">
+              <code>=SUM(range)</code>
+              <p>Menjumlahkan semua nilai dalam range</p>
+              <small>Contoh: =SUM(B2:B10)</small>
+            </div>
+            <div class="fg-card">
+              <code>=AVERAGE(range)</code>
+              <p>Menghitung rata-rata nilai</p>
+              <small>Contoh: =AVERAGE(C2:C10)</small>
+            </div>
+            <div class="fg-card">
+              <code>=IF(kondisi,benar,salah)</code>
+              <p>Logika kondisi percabangan</p>
+              <small>Contoh: =IF(B2>=75,"LULUS","GAGAL")</small>
+            </div>
+            <div class="fg-card">
+              <code>=COUNTIF(range,kriteria)</code>
+              <p>Menghitung data sesuai kriteria</p>
+              <small>Contoh: =COUNTIF(D2:D20,"Selesai")</small>
+            </div>
+            <div class="fg-card">
+              <code>=VLOOKUP(nilai,tabel,kolom,0)</code>
+              <p>Mencari data secara vertikal</p>
+              <small>Contoh: =VLOOKUP(A2,B2:D10,2,0)</small>
+            </div>
+            <div class="fg-card">
+              <code>=XLOOKUP(nilai,array_cari,hasil)</code>
+              <p>Versi modern VLOOKUP yang fleksibel</p>
+              <small>Contoh: =XLOOKUP(A2,B:B,C:C)</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROFILE SCREEN -->
+    <div class="screen" id="screen-profile">
+      <div class="screen-header">
+        <button class="btn-back" onclick="showScreen('screen-menu')">← Kembali</button>
+        <h2>👤 Profil Pemain</h2>
+        <span></span>
+      </div>
+      <div class="profile-content">
+        <div class="profile-header-card">
+          <div class="profile-avatar-lg" id="profile-avatar-lg">A</div>
+          <div class="profile-info">
+            <h3 id="profile-name">Player</h3>
+            <p id="profile-nim">-</p>
+            <p id="profile-prodi">-</p>
+          </div>
+        </div>
+        <div class="profile-stats-grid">
+          <div class="ps-card">
+            <span class="ps-icon">🎮</span>
+            <span class="ps-val" id="ps-games">0</span>
+            <span class="ps-label">Total Game</span>
+          </div>
+          <div class="ps-card">
+            <span class="ps-icon">🏆</span>
+            <span class="ps-val" id="ps-score">0</span>
+            <span class="ps-label">Best Score</span>
+          </div>
+          <div class="ps-card">
+            <span class="ps-icon">✅</span>
+            <span class="ps-val" id="ps-correct">0</span>
+            <span class="ps-label">Total Benar</span>
+          </div>
+          <div class="ps-card">
+            <span class="ps-icon">📈</span>
+            <span class="ps-val" id="ps-accuracy">0%</span>
+            <span class="ps-label">Akurasi</span>
+          </div>
+        </div>
+        <div class="badges-section">
+          <h3>🏅 Badge & Penghargaan</h3>
+          <div class="badges-grid" id="badges-grid">
+            <!-- Generated by JS -->
+          </div>
+        </div>
+        <div class="history-section">
+          <h3>📜 Riwayat Skor</h3>
+          <div class="history-list" id="history-list">
+            <!-- Generated by JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CERTIFICATE SCREEN -->
+    <div class="screen" id="screen-certificate">
+      <div class="screen-header">
+        <button class="btn-back" onclick="showScreen('screen-result')">← Kembali</button>
+        <h2>🎓 Sertifikat Digital</h2>
+        <button class="btn-download" onclick="downloadCertificate()">⬇ Unduh</button>
+      </div>
+      <div class="certificate-wrap">
+        <div class="certificate" id="certificate">
+          <div class="cert-border"></div>
+          <div class="cert-header">
+            <div class="cert-logo">⚙ EXCEL FORMULA CHALLENGE</div>
+            <div class="cert-subtitle">Otomotif Edition — Sertifikat Pencapaian</div>
+          </div>
+          <div class="cert-body">
+            <p class="cert-declares">Dengan bangga diberikan kepada</p>
+            <h2 class="cert-name" id="cert-name">-</h2>
+            <p class="cert-nim" id="cert-nim">-</p>
+            <p class="cert-text">Telah menyelesaikan tantangan <strong>Excel Formula Challenge – Otomotif
+                Edition</strong> dengan prestasi luar biasa dalam penguasaan formula Microsoft Excel pada konteks
+              administrasi bengkel dan data otomotif.</p>
+            <div class="cert-score-display">
+              <div class="cert-score-item"><span id="cert-score">0</span><small>Skor</small></div>
+              <div class="cert-score-item"><span id="cert-level">1</span><small>Level</small></div>
+              <div class="cert-score-item"><span id="cert-date">-</span><small>Tanggal</small></div>
+            </div>
+          </div>
+          <div class="cert-footer">
+            <div class="cert-seal">🏆</div>
+            <div class="cert-sign">
+              <div class="cert-line"></div>
+              <p>Program Studi Pendidikan Otomotif</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HINT MODAL -->
+    <div class="modal-overlay" id="hint-modal" onclick="closeHint()">
+      <div class="modal-card" onclick="event.stopPropagation()">
+        <div class="modal-header">
+          <h3>💡 Petunjuk</h3>
+          <button onclick="closeHint()">✕</button>
+        </div>
+        <div class="modal-body" id="hint-body">
+          <!-- Generated by JS -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SOUND EFFECTS (Web Audio API) -->
+  <script src="game.js"></script>
+</body>
+
+</html>
